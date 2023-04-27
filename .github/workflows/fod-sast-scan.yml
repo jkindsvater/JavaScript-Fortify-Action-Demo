@@ -18,8 +18,9 @@ jobs:
       
       - name: Build Node.JS Application
         run: |
-          npm install -g yo
-          npm install -g bower gulp nodemon
+          npm install
+          npm install yo
+          npm install bower gulp nodemon
           gulp build
       
       - name: Create Fortify on Demand Application Release
