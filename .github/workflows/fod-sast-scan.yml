@@ -51,3 +51,38 @@ jobs:
           APPLICATION_ID: 154817
           FOD_AUTH_TOKEN: ${{ secrets.FOD_AUTH_TOKEN }}
           
+      - name: Configure Static Scan for New Release
+      - run: >
+         curl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json'
+         --header 'Authorization: Bearer $FOD_AUTH_TOKEN' 
+         -d '{ \ 
+            "assessmentTypeId": 273, \ 
+            "entitlementFrequencyType":"SingleScan", \ 
+            "EntitlementId": 11948, \ 
+            "technologyStackId": 16, \ 
+            "performOpenSourceAnalysis": false, \ 
+            "auditPreferenceType": "Automated", \ 
+          }' 'https://api.ams.fortify.com/api/v3/releases/803402/static-scans/scan-setup'
+          
+      - name: Use Java 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Use Fortify ScanCentral Client for Packaging 
+        uses: fortify/gha-setup-scancentral-client@v1
+      - name: Use Fortify On Demand Uploader Utility
+        uses: fortify/gha-setup-fod-uploader@v1
+        
+      - name: Package Application Code
+        run: scancentral package -bt none -o package.zip
+        
+      - name: Upload Packaged Code and Begin Fortify Static Assessment
+        run: java -jar $FOD_UPLOAD_JAR -z package.zip -aurl $FOD_AURL -purl $FOD_PURL -rid "$FOD_RELEASE_ID" -tc "$FOD_TENANT" -ac "$FOD_USER" "$FOD_PAT" -ep 2 -pp 1
+        env:
+          FOD_AURL: "https://api.ams.fortify.com/"
+          FOD_PURL: "https://ams.fortify.com/"
+          FOD_TENANT: "FranklinBank"
+          FOD_USER: ${{ secrets.FOD_USER }}
+          FOD_PAT: ${{ secrets.FOD_PAT }}
+          FOD_APPLICATION_ID: 154817
+          FOD_RELEASE_ID: ${{ env.release_id }}
