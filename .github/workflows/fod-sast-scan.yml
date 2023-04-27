@@ -8,22 +8,19 @@ on: [workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x, 14.x, 15.x]
-        
+    
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 15.x
       
       - name: Build Node.JS Application
         run: |
-          npm ci
-          npm run build --if-present
+          npm install -g yo
+          npm install -g bower gulp nodemon
+          gulp build
       
       - name: Create Fortify on Demand Application Release
         run: >
@@ -32,8 +29,8 @@ jobs:
             --header 'Authorization: Bearer gAAAADjR3IxzZmi4utyJeS9IzeLeKHkOGIO-7GCAyqiQc6EPBaGegY4hLEFkyz8uiGyj6wl42pYHrIVrjU1T97lHascY9hATRYGkuPa02PRWnly7MdIxX__WSpjckco9rG-zGQZ4xWx_U-e8TTn3BpPaWPccqav0I3cA2bPrLXtD-XQ1VAMAAIAAAAARDcespuJb39R1Oc-AbpfB6yw2aNfB4HWDSs_-B3po-RLQCFSbZGKt2xtUqCRPqVX5NRkwEh1pXr3upUsj_MnMju5CFmX2m-SQg1rw2NGN4Fr2ROP7RwZzaT_vHn3By3F0krmy3AIchupPogh9cFrHCooh8pV9pnsz0uFAD9WexhtBRVagsZZVAEsyhRbF7JPEI4EJ8R3Mqi5XizAodsyD9Je2Vg9Q7W3IQZEdRSqq4sCsAhcTq0qZ8qyiftGV9yg2tkZJ-r3u9Xu2a99yB0ToUcCUfjO5dVnmGAxKvF6lkL6ZLN3BxEhQ_KCzrz07GYtN5fDQi3do6SF64UncqTjCx-KDBynfE1780w3RO_1fwGTpCMFA6VKBylc1GfHu9pEwUj7ylQlsJG9QBwaZNxFCfs9reEZMUibZbNiLJTX5y42ftCTlwFkZeRAHfcwSe_UwoTf7DztbrARNJDcCJtmUy95DpIsH6_5YjmHNzQrj-N3lWiOAHiJNPhRs6YAFsk0qg6obHukKe1gShcjj7ZbH82HuBsoStI3lk5_NPSaZLCgQZr8t_qJx37ufj-SGIFuspY-F23HursaCmmZCLYNXXLHbR9p5bXxPr_TpkUxxgzwN3WdOsSFEsyLxYct17Gjoc5sVhSk9ZRLRIdglLn5Y42GzEEomENTtDPNJ443H-DuctPS13OH6gOMkS8XvvjsMix0MPnxquRMqq8WKaQ6qtswaWv8M0z6Yebg4UZ4Ys6pKJNI4kfnUWNFy20CVW6oQUd9vsx8_JLWKrlk3Ltaj_8uyHW0FNBG690e-_roMpEJOfNWO2b5UoXsX3B5xcdiS5-iOoy_5CijPXy8mkQM3flkj0xyK6nIFJMoVuBPKfmww6QC-LH8sXb3VsqXN4hhdX8gm6YcDGp21Gu3tPmV-vWk1VwwSyomu7pzt887RVydDOk0orLenH-ZWEkifb0llItbukK2cX7IG1-8YuQloiLMKK27LnwH7p70uKYHbw9Fxq-JSxOpjBiHCgY4je_4PhmmgpdEt7AQm2PMXscO0lyVNz6FuC5QK6F0tJj5NwWlLnsyGtAJSU_hGLVPq4BBq0dxaQ0E4f3sMyo9FIvHYKiAxua7PU089WioY77_Mew' 
             -d '{
               "applicationId": 154817,
-              "releaseName": "Test_Game_Two",
-              "releaseDescription": "The Second Game",
+              "releaseName": "Test_Game_One",
+              "releaseDescription": "The First Game",
               "copyState": true,
               "copyStateReleaseId": 803401, 
               "sdlcStatusType": "Production"
