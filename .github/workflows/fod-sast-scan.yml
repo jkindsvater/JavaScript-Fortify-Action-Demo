@@ -36,7 +36,7 @@ jobs:
               "sdlcStatusType": "Production"
             }'
             'https://api.ams.fortify.com/api/v3/releases'
-            | jq '.releaseId'
+            \u007C jq '.releaseId'
           )
           && echo "release_id=$token" >> "$GITHUB_ENV"
           && echo ${{ env.release_id }}
