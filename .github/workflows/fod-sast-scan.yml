@@ -16,12 +16,11 @@ jobs:
         with:
           node-version: 4.2.x
       
-      - name: Build Node.JS Application
-        run: |
-          npm install
-          npm install yo
-          npm install bower gulp nodemon
-          gulp build
+     # - name: Build Node.JS Application
+     #   run: |
+     #     npm install yo
+     #     npm install bower gulp nodemon
+     #     gulp build
       
       - name: Create Fortify on Demand Application Release
         run: >
