@@ -41,7 +41,7 @@ jobs:
         #  && echo "release_id=$token" >> "$GITHUB_ENV"
         #  && echo ${{ env.release_id }}
         run: |
-          token=$( curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer $FOD_AUTH_TOKEN -d '{ "applicationId": $APPLICATION_ID , "releaseName": $RELEASE_NAME , "releaseDescription": $RELEASE_DESCRIPTION , "copyState": false, "sdlcStatusType": "Production" }' 'https://api.ams.fortify.com/api/v3/releases' | jq '.releaseId' )
+          token=$( curl -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer $FOD_AUTH_TOKEN' -d '{ "applicationId": $APPLICATION_ID , "releaseName": $RELEASE_NAME , "releaseDescription": $RELEASE_DESCRIPTION , "copyState": false, "sdlcStatusType": "Production" }' 'https://api.ams.fortify.com/api/v3/releases' | jq '.releaseId' )
           echo "release_id=$token" "$GITHUB_ENV"
           echo ${{ env.release_id }}
         env:
